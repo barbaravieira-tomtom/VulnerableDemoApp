@@ -1,0 +1,37 @@
+
+<div>
+	<div id="postdiv">
+		<h4>XSS vulnerability with jQuery</h4>
+		<script src="js/hello1.js"></script>
+
+		<form id="xssForm">
+			<label>Write something here:</label> <input type="text" id="xssInput"
+				class="form-control" name="xssInput" /> <br />
+			<button type="submit" id="postBtnXSS" class="btn btn-primary">Submit</button>
+		</form>
+
+	</div>
+	<br />
+
+	<div id="getResultDiv2" class="alert alert-danger">
+		<p class="getXSSVuln"></p>
+	</div>
+
+	<br /> <br />
+	<div id="getdiv1" class="form-group">
+		<h4>Persistent XSS vulnerability with jQuery</h4>
+		<button class="btn btn-primary" id="getBtnLoad">Load
+			something from the backend</button>
+	</div>
+
+	<div id="getResultDivLoad" class="alert alert-danger">
+		<p class="getXSSVuln"></p>
+	</div>
+
+
+</div>
+
+
+
+
+
