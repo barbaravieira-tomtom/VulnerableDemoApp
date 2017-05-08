@@ -107,9 +107,10 @@ public class UiApplication {
             // @formatter:off
             //http.httpBasic();
             //http.authorizeRequests().antMatchers("/**").permitAll(); //.anyRequest().authenticated();
+            //http.csrf().disable();
+
 
             http.headers().httpStrictTransportSecurity();
-            http.csrf().disable();
             http.httpBasic().and().authorizeRequests().antMatchers(patterns).permitAll().anyRequest().authenticated();
             http.csrf().and().addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class);
             //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
