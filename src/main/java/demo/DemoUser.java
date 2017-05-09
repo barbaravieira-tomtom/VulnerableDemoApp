@@ -1,7 +1,10 @@
 package demo;
 
+import java.util.Collection;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Document(collection = "users")
 public class DemoUser {
@@ -10,13 +13,13 @@ public class DemoUser {
     private String username;
     private String passwordhash;
     private boolean enabled;
-    private String role;
+    private Collection<SimpleGrantedAuthority> roles;
 
-    public DemoUser(String username, String password, boolean enabled, String role) {
+    public DemoUser(String username, String passwordhash, boolean enabled, Collection<SimpleGrantedAuthority> roles) {
         this.setUsername(username);
-        this.setPasswordhash(password);
+        this.setPasswordhash(passwordhash);
         this.setEnabled(enabled);
-        this.setRole(role);
+        this.setRoles(roles);
     }
 
     public String getUsername() {
@@ -42,10 +45,17 @@ public class DemoUser {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    public String getRole() {
-        return role;
+
+    public Collection<SimpleGrantedAuthority> getRoles() {
+        return roles;
     }
-    public void setRole(String role) {
-        this.role = role;
+
+    public void setRoles(Collection<SimpleGrantedAuthority> roles) {
+        this.roles = roles;
+    }
+
+    public String toString() {
+        return String.format("User[id=%s, username='%s', passwordhash='%s']", id, username, passwordhash);
+
     }
 }

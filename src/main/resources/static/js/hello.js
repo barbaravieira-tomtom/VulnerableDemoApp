@@ -30,7 +30,7 @@ appModule.config(function($routeProvider, $httpProvider, $sceProvider) {
 	// $sceProvider.enabled(true);
 });
 
-appModule.controller('navigation', function($rootScope, $http, $location, $route) {
+appModule.controller('navigation', function($rootScope, $http, $location, $route, $cookies) {
 			
 			var self = this;
 
@@ -57,6 +57,9 @@ appModule.controller('navigation', function($rootScope, $http, $location, $route
 			self.openCustomer = function() {
 				$location.path('/customer');
 			}
+			
+			var csrf_token = $cookies.get('CSRF-TOKEN');
+			$http.defaults.headers.post['X-CSRF-Token'] = csrf_token;
 
 			var authenticate = function(credentials, callback) {
 
