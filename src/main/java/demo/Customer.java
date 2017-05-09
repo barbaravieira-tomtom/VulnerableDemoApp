@@ -1,6 +1,10 @@
 package demo;
 
+import org.springframework.data.annotation.Id;
+
 public class Customer {
+    @Id
+    private String id;
     private String firstname;
     private String lastname;
 
@@ -27,5 +31,10 @@ public class Customer {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Customer[id=%s, firstName='%s', lastName='%s']", id, firstname, lastname);
     }
 }

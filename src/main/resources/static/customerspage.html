@@ -1,0 +1,31 @@
+
+<div>
+	<div id="postdiv">
+		<h4>Add customers</h4>
+		<form id="customerForm" ng-submit="controller.submitCustomer()">
+			<label>FirstName</label> <input type="text" id="firstname"
+				class="form-control" ng-model="controller.firstname" /> <label>LastName</label>
+			<input type="text" id="lastname" class="form-control"
+				ng-model="controller.lastname" /> <br />
+			<button type="submit" id="postBtn" class="btn btn-primary">Submit</button>
+
+		</form>
+
+		<div id="postResultDiv"></div>
+		<br />
+		<div id="getdiv">
+			<!-- <form id="loadCustomersForm" ng-submit="controller.loadCustomers()">
+				<button id="getBtn" class="btn btn-primary">List all
+					customers</button>
+			</form> -->
+
+			<br />
+			<h4>Customers stored in the database</h4>
+			<ul ng-repeat="customer in allcustomers | orderBy: 'firstname' ">
+				<li>{{customer.firstname}} {{customer.lastname}}</li>
+			</ul>
+
+		</div>
+
+	</div>
+</div>

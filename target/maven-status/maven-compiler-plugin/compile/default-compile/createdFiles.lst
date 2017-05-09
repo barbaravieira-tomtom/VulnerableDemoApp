@@ -1,2 +1,8 @@
-demo/UiApplication$SecurityConfiguration.class
+demo/DemoUserRepository.class
+demo/UiApplication$SecurityConfiguration$CsrfGrantingFilter.class
+demo/Customer.class
+demo/DemoUser.class
+demo/DemoResponse.class
+demo/CustomerRepository.class
 demo/UiApplication.class
+demo/UiApplication$SecurityConfiguration.class
