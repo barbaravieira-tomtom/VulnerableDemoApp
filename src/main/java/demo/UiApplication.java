@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -63,6 +64,7 @@ public class UiApplication {
         return response;
     }
 
+    @Secured("USER")
     @RequestMapping(value = "/postcustomer", method = RequestMethod.POST)
     public DemoResponse postCustomer(@RequestBody Customer customer) {
         customers.save(customer);
@@ -77,6 +79,7 @@ public class UiApplication {
         return response;
     }
 
+    @Secured("USER")
     @RequestMapping("/resource")
     public Map<String, Object> home() {
         Map<String, Object> model = new HashMap<String, Object>();
