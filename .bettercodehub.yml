@@ -6,6 +6,7 @@ exclude:
 - /src/main/resources/static/js/angular.min.js
 - /src/main/resources/static/js/ui-bootstrap.min.js
 - /target
+- /target/.*
 component_depth: 1
 languages:
 - java
