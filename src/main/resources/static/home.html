@@ -1,8 +1,10 @@
-<h1>Greeting</h1>
+<h1>Home</h1>
 <div ng-show="authenticated">
-	<p>The ID is {{controller.greeting.id}}</p>
-	<p>The content is {{controller.greeting.content}}</p>
+	<br />
+	<p>{{controller.greeting.content}}</p>
+	<!-- <p> ID: {{controller.greeting.id}}</p> -->
 </div>
-<div  ng-show="!authenticated">
+<div ng-show="!authenticated">
+	<br />
 	<p>Login to see your greeting</p>
 </div>

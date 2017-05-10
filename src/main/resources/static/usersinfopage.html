@@ -1,5 +1,5 @@
 
-<div>
+<div ng-show="authenticated">
 	<div id="postdiv">
 		<h4>Users information</h4>
 		<form id="usersInfoForm" ng-submit="controller.submitUsersInfo()">
@@ -10,8 +10,10 @@
 			<button type="submit" id="postBtn" class="btn btn-primary">Submit</button>
 
 		</form>
-
-		<div id="postResultDiv"></div>
+		<br/>
+		<div id="postResultDiv">
+		{{controller.addusersinfo}}
+		</div>
 		<br />
 		<div id="getdiv">
 			<!-- <form id="loadCustomersForm" ng-submit="controller.loadCustomers()">
@@ -27,5 +29,12 @@
 
 		</div>
 
+	</div>
+</div>
+<div ng-show="!authenticated" class="alert alert-danger">
+	<div ng-controller="navigation as nav" class="container">
+		<p>
+			You need to <a href="" ng-click="nav.openLogin()">login</a> first.
+		</p>
 	</div>
 </div>

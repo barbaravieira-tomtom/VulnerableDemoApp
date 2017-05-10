@@ -19,7 +19,10 @@ appModule.config(function($routeProvider, $httpProvider, $sceProvider) {
 		controllerAs: 'controller'
 	}).when('/xss1', {
 		templateUrl : 'xss1.html'
-	}).when('/usersinfo', {
+	}).when('/error', {
+		templateUrl : 'error.html'
+	})
+	.when('/usersinfo', {
 		templateUrl : 'usersinfopage.html',
 		controller : 'usersinfoctrl',
 		controllerAs: 'controller'
@@ -126,18 +129,20 @@ appModule.controller('home', function($http) {
 	})
 });
 
-appModule.controller('usersinfoctrl', function($http,$sce,$location, $window, $scope,$cookies) {
+appModule.controller('usersinfoctrl', function($http,$sce,$location,$rootScope, $window, $scope,$cookies) {
 	var self = this;
 	
-	$http.get('user').then(function(response) {
-		if (response.data.name) {
-			$location.path("/usersinfo");
-		} else {
-			$location.path("/login");
-		}
-	}, function() {
-		$location.path("/");
-	});
+// $http.get('user').then(function(response) {
+// if (response.data.name) {
+// $rootScope.authenticated = true;
+// $location.path("/usersinfo");
+// } else {
+// $rootScope.authenticated = false;
+// $location.path("/usersinfo");
+// }
+// }, function() {
+// $location.path("/");
+// });
 	
 	self.submitUsersInfo = function() {
 		var csrf_token = $cookies.get('CSRF-TOKEN');
@@ -146,9 +151,11 @@ appModule.controller('usersinfoctrl', function($http,$sce,$location, $window, $s
 		$http.post('postusersinfo', { firstname: self.firstname, lastname: self.lastname})
 		   .then(
 		       function(response){
+		    	  self.addusersinfo = 'Successfully added user to the system.';
 		          console.log('success'); 
 		       }, 
 		       function(response){
+		    	 self.addusersinfo = 'Failed added user to the system.';
 		    	 console.log(response.data)
 		         console.log('failure');
 		       }
@@ -157,10 +164,20 @@ appModule.controller('usersinfoctrl', function($http,$sce,$location, $window, $s
 	
 	// self.loadCustomers = function(){
 		$http.get('getallusersinfo').then(function(response) {
-			$scope.allusersinfo = response.data.data;
-			console.log(response.data.data);
+			if(response) {
+				$scope.allusersinfo = response.data.data;
+				console.log('success');
+				console.log(response.data.data);
+				$location.path("/usersinfo");
+
+			}
+			else {
+				$location.path("/usersinfo");
+				console.log('error');
+			}
 		},
 		function(response) {
+			$location.path("/usersinfo");
 			console.log('error');
 			console.log(response.data);
 		}

@@ -1,6 +1,8 @@
-/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/Customer.java
-/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/CustomerRepository.java
+/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/MongoDBAuthenticationProvider.java
 /Users/barbara/git/VulnerableDemoApp/src/main/java/demo/DemoUser.java
+/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/SecurityConfiguration.java
 /Users/barbara/git/VulnerableDemoApp/src/main/java/demo/DemoUserRepository.java
-/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/UiApplication.java
+/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/UserInfo.java
+/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/UserInfoRepository.java
 /Users/barbara/git/VulnerableDemoApp/src/main/java/demo/DemoResponse.java
+/Users/barbara/git/VulnerableDemoApp/src/main/java/demo/DemoApplication.java

@@ -1,8 +1,9 @@
+demo/UserInfo.class
+demo/SecurityConfiguration.class
+demo/UserInfoRepository.class
 demo/DemoUserRepository.class
-demo/UiApplication$SecurityConfiguration$CsrfGrantingFilter.class
-demo/Customer.class
 demo/DemoUser.class
+demo/MongoDBAuthenticationProvider.class
 demo/DemoResponse.class
-demo/CustomerRepository.class
-demo/UiApplication.class
-demo/UiApplication$SecurityConfiguration.class
+demo/SecurityConfiguration$CsrfGrantingFilter.class
+demo/DemoApplication.class
