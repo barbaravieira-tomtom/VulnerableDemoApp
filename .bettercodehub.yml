@@ -5,6 +5,9 @@ exclude:
 - /src/main/resources/static/js/jQuery.js
 - /src/main/resources/static/js/angular.min.js
 - /src/main/resources/static/js/ui-bootstrap.min.js
+- /src/main/resources/static/js/bootstrap.min.css.map
+- /src/main/resources/static/js/jquery.min.map
+- /src/main/wro/.*
 - /target
 - /target/.*
 component_depth: 1
