@@ -2,15 +2,15 @@ package demo;
 
 import org.springframework.data.annotation.Id;
 
-public class Customer {
+public class UserInfo {
     @Id
     private String id;
     private String firstname;
     private String lastname;
 
-    public Customer() {}
+    public UserInfo() {}
 
-    public Customer(String firstname, String lastname) {
+    public UserInfo(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
     }

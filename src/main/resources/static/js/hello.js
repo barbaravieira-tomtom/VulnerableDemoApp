@@ -19,9 +19,9 @@ appModule.config(function($routeProvider, $httpProvider, $sceProvider) {
 		controllerAs: 'controller'
 	}).when('/xss1', {
 		templateUrl : 'xss1.html'
-	}).when('/customer', {
-		templateUrl : 'customerspage.html',
-		controller : 'customerctrl',
+	}).when('/usersinfo', {
+		templateUrl : 'usersinfopage.html',
+		controller : 'usersinfoctrl',
 		controllerAs: 'controller'
 	}).otherwise('/');
 
@@ -54,33 +54,28 @@ appModule.controller('navigation', function($rootScope, $http, $location, $route
 				$location.path('/home');
 			}
 			
-			self.openCustomer = function() {
-				$location.path('/customer');
+			self.openUsersInfo = function() {
+				$location.path('/usersinfo');
 			}
 			
 			var csrf_token = $cookies.get('CSRF-TOKEN');
 			$http.defaults.headers.post['X-CSRF-Token'] = csrf_token;
+			self.tab = function(route) {
+				return $route.current && route === $route.current.controller;
+			};
 
-			var authenticate = function(credentials, callback) {
+			var authenticate = function(callback) {
 
-				var headers = credentials ? {
-					authorization : "Basic "
-							+ btoa(credentials.username + ":"
-									+ credentials.password)
-				} : {};
-
-				$http.get('user', {
-					headers : headers
-				}).then(function(response) {
+				$http.get('user').then(function(response) {
 					if (response.data.name) {
 						$rootScope.authenticated = true;
 					} else {
 						$rootScope.authenticated = false;
 					}
-					callback && callback($rootScope.authenticated);
+					callback && callback();
 				}, function() {
 					$rootScope.authenticated = false;
-					callback && callback(false);
+					callback && callback();
 				});
 
 			}
@@ -89,18 +84,29 @@ appModule.controller('navigation', function($rootScope, $http, $location, $route
 
 			self.credentials = {};
 			self.login = function() {
-				authenticate(self.credentials, function(authenticated) {
-					if (authenticated) {
-						console.log("Login succeeded")
-						$location.path("/");
-						self.error = false;
-						$rootScope.authenticated = true;
-					} else {
-						console.log("Login failed")
-						$location.path("/login");
-						self.error = true;
-						$rootScope.authenticated = false;
+				$http.post('login', $.param(self.credentials), {
+					headers : {
+						"content-type" : "application/x-www-form-urlencoded"
 					}
+				}).then(function() {
+					authenticate(function() {
+						if ($rootScope.authenticated) {
+							console.log("Login succeeded")
+							$location.path("/");
+							self.error = false;
+							$rootScope.authenticated = true;
+						} else {
+							console.log("Login failed with redirect")
+							$location.path("/login");
+							self.error = true;
+							$rootScope.authenticated = false;
+						}
+					});
+				}, function() {
+					console.log("Login failed")
+					$location.path("/login");
+					self.error = true;
+					$rootScope.authenticated = false;
 				})
 			};
 
@@ -120,13 +126,24 @@ appModule.controller('home', function($http) {
 	})
 });
 
-appModule.controller('customerctrl', function($http,$sce, $window, $scope,$cookies) {
+appModule.controller('usersinfoctrl', function($http,$sce,$location, $window, $scope,$cookies) {
 	var self = this;
-	self.submitCustomer = function() {
+	
+	$http.get('user').then(function(response) {
+		if (response.data.name) {
+			$location.path("/usersinfo");
+		} else {
+			$location.path("/login");
+		}
+	}, function() {
+		$location.path("/");
+	});
+	
+	self.submitUsersInfo = function() {
 		var csrf_token = $cookies.get('CSRF-TOKEN');
 		$http.defaults.headers.post['X-CSRF-Token'] = csrf_token;
 		
-		$http.post('postcustomer', { firstname: self.firstname, lastname: self.lastname})
+		$http.post('postusersinfo', { firstname: self.firstname, lastname: self.lastname})
 		   .then(
 		       function(response){
 		          console.log('success'); 
@@ -139,8 +156,8 @@ appModule.controller('customerctrl', function($http,$sce, $window, $scope,$cooki
 	};
 	
 	// self.loadCustomers = function(){
-		$http.get('getallcustomer').then(function(response) {
-			$scope.allcustomers = response.data.data;
+		$http.get('getallusersinfo').then(function(response) {
+			$scope.allusersinfo = response.data.data;
 			console.log(response.data.data);
 		},
 		function(response) {
@@ -154,12 +171,14 @@ appModule.controller('customerctrl', function($http,$sce, $window, $scope,$cooki
 
 appModule.controller('xss', function($http, $sce, $window, $scope,$cookies) {
 	var self = this;
-	self.inputtext = "<p> <input type='button' name='Redirect' class='btn btn-primary' value='Submit'  onclick='window.alert(document.cookie);' /></p>"; 
+	self.inputtext = "<p> <input type='button' name='Redirect' "+ 
+					" class='btn btn-primary' value='Submit'  " + 
+					" onclick='window.alert(document.cookie);' /></p>"; 
 	self.outputtext = '';	
 	
-	$http.get('/getinfo/').then(function(response) {
-		self.inputtext = angular.fromJson(response.data.data);
-		console.log(response.data.data)
+	$http.get('/getxss').then(function(response) {
+		self.inputtext = response.data.data;
+		console.log(response.data)
 	});		
 	
 	
@@ -169,7 +188,7 @@ appModule.controller('xss', function($http, $sce, $window, $scope,$cookies) {
 		var csrf_token = $cookies.get('CSRF-TOKEN');
 		$http.defaults.headers.post['X-CSRF-Token'] = csrf_token;
 		
-		$http.post('postxss', { xssinput: self.inputtext})
+		$http.post('postxss', self.inputtext)
 		   .then(
 		       function(response){
 		          console.log('success'); 

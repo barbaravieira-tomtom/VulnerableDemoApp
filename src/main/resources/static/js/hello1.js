@@ -11,11 +11,6 @@ $(document).ready(
 			});
 
 			function ajaxPost() {
-
-				// PREPARE FORM DATA
-				var formXSS = {
-					xssInput : $("#xssInput").val()
-				}
 				// DO POST
 				$.ajax({
 					type : "POST",
@@ -32,7 +27,7 @@ $(document).ready(
 						}
 					},
 					error : function(e) {
-						alert("Error! " + JSON.stringify(formData))
+						alert("Error! " + JSON.stringify($("#xssInput").val()))
 						console.log("ERROR: ", e);
 					}
 				});
@@ -58,7 +53,7 @@ $(document).ready(function() {
 	function ajaxGet() {
 		$.ajax({
 			type : "GET",
-			url : "/getinfo",
+			url : "/getxss",
 			success : function(result) {
 				$("#getResultDivLoad").html($.parseJSON(result.data));
 				console.log("Success: ", result.data);
