@@ -1,0 +1,9 @@
+exclude:
+- /src/main/resources/static/js/angular-cookies.js
+- /src/main/resources/static/js/angular-resource.js
+- /src/main/resources/static/js/angular-route.js
+- /src/main/resources/static/js/jQuery.js
+component_depth: 1
+languages:
+- java
+- javascript          
