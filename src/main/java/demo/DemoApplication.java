@@ -12,16 +12,21 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @SpringBootApplication
 @RestController
 @EnableGlobalMethodSecurity
 @EnableMongoRepositories
 public class DemoApplication {
+
+    private boolean ESCAPING_ON = false;
 
     @Autowired
     UserInfoRepository allusersinfo;
@@ -31,7 +36,6 @@ public class DemoApplication {
 
     @Autowired
     MemoRepository memos;
-
 
     @Autowired
     private MongoDBAuthenticationProvider authenticationProvider;
@@ -63,25 +67,40 @@ public class DemoApplication {
     @Secured("ROLE_USER")
     @RequestMapping("/resource")
     public Map<String, Object> home() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("id", UUID.randomUUID().toString());
-        model.put("content", "Welcome, you're logged in.");
+        model.put("content", "Welcome " + auth.getName() + ", you're logged in.");
         return model;
     }
 
     @RequestMapping(value = "/postxss", method = RequestMethod.POST)
     public DemoResponse postXSS(@RequestBody String xssInput) {
-        //xssInputData = new String(xssInput);     
-        memos.save(new Memo("ANONYMOUS_USER", xssInput));
+        //xssInputData = new String(xssInput); 
+        String freetext = xssInput;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (isEscapingEnabled())
+            freetext = HtmlUtils.htmlEscape(xssInput);
+
+        memos.delete(auth.getName());
+        memos.save(new Memo(auth.getName(), freetext));
         DemoResponse response = new DemoResponse("Done", xssInput);
         return response;
     }
 
     @RequestMapping(value = "/getxss", method = RequestMethod.GET)
     public DemoResponse getxss() {
-        Memo memo = memos.findByIdentifier("ANONYMOUS_USER");
-        DemoResponse response = new DemoResponse("Done", memo.getFreetext());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Memo memo = memos.findByIdentifier(auth.getName());
+        DemoResponse response = new DemoResponse("Error", "Error");
+        if (memo != null)
+            response = new DemoResponse("Done", memo.getFreetext());
         return response;
+    }
+
+    private boolean isEscapingEnabled() {
+        return this.ESCAPING_ON;
     }
 
     public static void main(String[] args) {

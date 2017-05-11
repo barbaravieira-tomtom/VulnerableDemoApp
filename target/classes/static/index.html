@@ -8,7 +8,7 @@
 	display: none !important;
 }
 </style>
-<script src="js/jQuery.js"></script>
+<script src="js/jquery.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/angular-cookies.js"></script>
 <script src="js/angular-resource.js"></script>
@@ -24,13 +24,13 @@
 				ng-click="nav.openHome()">home</a></li>
 				
 			<li ng-class="{active:nav.tab('xss1')}"><a href=""
-				ng-click="nav.openXSS1()">xss with jQuery</a></li>
+				ng-click="nav.openXSS1()">xss with jQuery </a></li>
 				
 			<li ng-class="{active:nav.tab('xss')}"><a href=""
 				ng-click="nav.openXSS()">xss with AngularJS</a></li>
 
 			<li ng-class="{active:nav.tab('usersinfo')}"><a href=""
-				ng-click="nav.openUsersInfo()">add users information</a></li>
+				ng-click="nav.openUsersInfo()">add users</a></li>
 				
 			<li ng-show="!authenticated"
 				ng-class="{active:nav.tab('navigation')}"><a href=""

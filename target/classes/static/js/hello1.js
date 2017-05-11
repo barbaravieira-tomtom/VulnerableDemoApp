@@ -55,7 +55,7 @@ $(document).ready(function() {
 			type : "GET",
 			url : "/getxss",
 			success : function(result) {
-				$("#getResultDivLoad").html($.parseJSON(result.data));
+				$("#getResultDivLoad").html(result.data); //$.parseJSON(result.data));
 				console.log("Success: ", result.data);
 			},
 			error : function(e) {
