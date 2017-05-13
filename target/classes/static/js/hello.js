@@ -28,7 +28,7 @@ appModule.config(function($routeProvider, $httpProvider, $sceProvider) {
 		controllerAs: 'controller'
 	}).otherwise('/');
 
-	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+	//$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 	// $sceProvider.enabled(true);
 });
@@ -162,6 +162,13 @@ appModule.controller('usersinfoctrl', function($http,$sce,$location,$rootScope, 
 		    );
 	};
 	
+	$scope.propertyName = 'firstname'; //constructor.constructor('alert(document.cookie)')() 
+	$scope.reverse = true; 
+	$scope.sortBy = function(propertyName) {
+	    //$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+	    $scope.propertyName = propertyName;
+	};
+	
 	// self.loadCustomers = function(){
 		$http.get('getallusersinfo').then(function(response) {
 			if(response) {
@@ -197,7 +204,7 @@ appModule.controller('xss', function($http, $sce, $window, $scope,$cookies) {
 		self.inputtext = response.data.data;
 		console.log(response.data)
 	});		
-	
+
 	
 	self.submitxss = function() {
 		self.outputtext = self.inputtext;
