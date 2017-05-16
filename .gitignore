@@ -1,1 +1,16 @@
 .bettercodehub.yml
+.classpath
+.checkstyle
+.project
+.settings
+node
+node_modules
+target-eclipse
+target
+bin
+**.log
+**/bower_components
+.DS_Store
+**.pyc
+sourcedata/*.json
+sourcedata/*.xml
