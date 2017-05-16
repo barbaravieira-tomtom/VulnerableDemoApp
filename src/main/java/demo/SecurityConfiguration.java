@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(patterns)
             .permitAll()
             .anyRequest()
+
             .authenticated();
         http.csrf().and().addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class);
 
