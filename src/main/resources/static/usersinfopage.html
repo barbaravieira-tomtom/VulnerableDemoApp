@@ -14,45 +14,26 @@
 		<div id="postResultDiv">{{controller.addusersinfo}}</div>
 		<br />
 		<div id="getdiv">
-			<!-- <form id="loadCustomersForm" ng-submit="controller.loadCustomers()">
-				<input type="text" id="orderbyparameter" class="form-control"
-				ng-model="controller.orderbyparameter" /> <br />
-				<button id="getBtn" class="btn btn-primary"> Order by </button>
-			</form> -->
 			<h4>Users stored in the database</h4>
-
-			<label>Sort by </label> <input type="text" id="propertyName"
-				class="form-control" ng-model="controller.propertyName1" />
-			<pre>Sort by = {{propertyName1}}; </pre>
-			<button ng-click="sortBy(controller.propertyName1)"
-				class="btn btn-primary"> Order by {{controller.propertyName}}</button>
-			<span class="sortorder"
-				ng-show="propertyName === controller.propertyName"></span>
-
-			<button ng-click="propertyName = null; reverse = false">Set
-				to unsorted</button>
-			<br />
-
-
-
-			<table class="users">
+			<table class="table">
 				<tr>
-
 					<th><label> First Name </label></th>
-
+					<th>&nbsp&nbsp&nbsp&nbsp</th>
 					<th><label> Last Name </label></th>
 				</tr>
 				<tr ng-repeat="usersinfo in allusersinfo | orderBy:propertyName ">
 					<td>{{usersinfo.firstname}}</td>
-
+					<td>&nbsp&nbsp&nbsp&nbsp</td>
 					<td>{{usersinfo.lastname}}</td>
 				</tr>
 			</table>
 
-			<!-- <ul ng-repeat="usersinfo in allusersinfo | orderBy: 'fir' ">
-				<li></li>
-			</ul> -->
-
+			<br /> <br /> <label>Sort by: </label> <input type="text"
+				id="propertyName" class="form-control"
+				ng-model="controller.propertyName1" />
+			<pre>Sort by = {{propertyName}}; </pre>
+			<button ng-click="sortBy(controller.propertyName1)"
+				class="btn btn-primary">Submit {{controller.propertyName}}</button>
 		</div>
 
 	</div>

