@@ -1,0 +1,66 @@
+
+<div ng-show="authenticated">
+	<div id="postdiv">
+		<h4>Users information</h4>
+		<form id="usersInfoForm" ng-submit="controller.submitUsersInfo()">
+			<label>FirstName</label> <input type="text" id="firstname"
+				class="form-control" ng-model="controller.firstname" /> <label>LastName</label>
+			<input type="text" id="lastname" class="form-control"
+				ng-model="controller.lastname" /> <br />
+			<button type="submit" id="postBtn" class="btn btn-primary">Submit</button>
+
+		</form>
+		<br />
+		<div id="postResultDiv">{{controller.addusersinfo}}</div>
+		<br />
+		<div id="getdiv">
+			<!-- <form id="loadCustomersForm" ng-submit="controller.loadCustomers()">
+				<input type="text" id="orderbyparameter" class="form-control"
+				ng-model="controller.orderbyparameter" /> <br />
+				<button id="getBtn" class="btn btn-primary"> Order by </button>
+			</form> -->
+			<h4>Users stored in the database</h4>
+
+			<label>Sort by </label> <input type="text" id="propertyName"
+				class="form-control" ng-model="controller.propertyName1" />
+			<pre>Sort by = {{propertyName1}}; </pre>
+			<button ng-click="sortBy(controller.propertyName1)"
+				class="btn btn-primary"> Order by {{controller.propertyName}}</button>
+			<span class="sortorder"
+				ng-show="propertyName === controller.propertyName"></span>
+
+			<button ng-click="propertyName = null; reverse = false">Set
+				to unsorted</button>
+			<br />
+
+
+
+			<table class="users">
+				<tr>
+
+					<th><label> First Name </label></th>
+
+					<th><label> Last Name </label></th>
+				</tr>
+				<tr ng-repeat="usersinfo in allusersinfo | orderBy:propertyName ">
+					<td>{{usersinfo.firstname}}</td>
+
+					<td>{{usersinfo.lastname}}</td>
+				</tr>
+			</table>
+
+			<!-- <ul ng-repeat="usersinfo in allusersinfo | orderBy: 'fir' ">
+				<li></li>
+			</ul> -->
+
+		</div>
+
+	</div>
+</div>
+<div ng-show="!authenticated" class="alert alert-danger">
+	<div ng-controller="navigation as nav" class="container">
+		<p>
+			You need to <a href="" ng-click="nav.openLogin()">login</a> first.
+		</p>
+	</div>
+</div>
