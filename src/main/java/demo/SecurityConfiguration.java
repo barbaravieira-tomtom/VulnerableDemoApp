@@ -53,6 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authenticated();
         http.csrf().and().addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class);
 
+
         //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         // @formatter:on
     }
