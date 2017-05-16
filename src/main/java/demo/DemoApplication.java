@@ -22,7 +22,7 @@ import org.springframework.web.util.HtmlUtils;
 
 @SpringBootApplication
 @RestController
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableMongoRepositories
 public class DemoApplication {
 
@@ -49,7 +49,6 @@ public class DemoApplication {
         return user;
     }
 
-    @Secured("ROLE_USER")
     @RequestMapping(value = "/getallusersinfo", method = RequestMethod.GET)
     public DemoResponse getAllUsersInfo() {
         DemoResponse response = new DemoResponse("Done", allusersinfo.findAll());
@@ -126,7 +125,8 @@ public class DemoApplication {
         //        users.deleteAll();
         //        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_USER");
         //        users.save(new DemoUser("test", encoder.encode("password"), true, Arrays.asList(role)));
-
+        //        users.save(new DemoUser("John", encoder.encode("Smith"), true,
+        //            Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"))));
         auth.authenticationProvider(authenticationProvider);
     }
 }
