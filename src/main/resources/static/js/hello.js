@@ -28,7 +28,7 @@ appModule.config(function($routeProvider, $httpProvider, $sceProvider) {
 		controllerAs: 'controller'
 	}).otherwise('/');
 
-	//$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+	$httpProvider.defaults.headers.common['X-Requested-With'] ='XMLHttpRequest';
 
 	// $sceProvider.enabled(true);
 });
@@ -132,18 +132,6 @@ appModule.controller('home', function($http) {
 appModule.controller('usersinfoctrl', function($http,$sce,$location,$rootScope, $window, $scope,$cookies) {
 	var self = this;
 	
-// $http.get('user').then(function(response) {
-// if (response.data.name) {
-// $rootScope.authenticated = true;
-// $location.path("/usersinfo");
-// } else {
-// $rootScope.authenticated = false;
-// $location.path("/usersinfo");
-// }
-// }, function() {
-// $location.path("/");
-// });
-	
 	self.submitUsersInfo = function() {
 		var csrf_token = $cookies.get('CSRF-TOKEN');
 		$http.defaults.headers.post['X-CSRF-Token'] = csrf_token;
@@ -162,14 +150,12 @@ appModule.controller('usersinfoctrl', function($http,$sce,$location,$rootScope, 
 		    );
 	};
 	
-	$scope.propertyName = 'firstname'; //constructor.constructor('alert(document.cookie)')() 
+	$scope.propertyName = 'firstname'; // constructor.constructor('alert(document.cookie)')()
 	$scope.reverse = true; 
 	$scope.sortBy = function(propertyName) {
-	    //$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
 	    $scope.propertyName = propertyName;
 	};
 	
-	// self.loadCustomers = function(){
 		$http.get('getallusersinfo').then(function(response) {
 			if(response) {
 				$scope.allusersinfo = response.data.data;
@@ -189,7 +175,6 @@ appModule.controller('usersinfoctrl', function($http,$sce,$location,$rootScope, 
 			console.log(response.data);
 		}
 		);		
-	// };
 	
 });
 
