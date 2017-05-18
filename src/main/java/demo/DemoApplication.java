@@ -122,11 +122,12 @@ public class DemoApplication {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        //        StandardPasswordEncoder encoder = new StandardPasswordEncoder();
-        //        users.deleteAll();
-        //        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_USER");
-        //        users.save(new DemoUser("test", encoder.encode("password"), true, Arrays.asList(role)));
-
+        /**
+        StandardPasswordEncoder encoder = new StandardPasswordEncoder();
+        users.deleteAll();
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_USER");
+        users.save(new DemoUser("test", encoder.encode("password"), true, Arrays.asList(role)));
+        **/
         auth.authenticationProvider(authenticationProvider);
     }
 }

@@ -38,21 +38,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //http.httpBasic().and().authorizeRequests().
 
         http.headers().httpStrictTransportSecurity();
-        http.formLogin()
-            .loginPage("/login")
-            .defaultSuccessUrl("/home.html")
-            .failureUrl("/error")
-            .and()
-            .logout()
-            .and()
-            .authorizeRequests()
-            .antMatchers(patterns)
-            .permitAll()
-            .anyRequest()
+
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/home.html").failureUrl("/error").and().logout().and()
+            .authorizeRequests().antMatchers(patterns).permitAll().anyRequest()
 
             .authenticated();
         http.csrf().and().addFilterAfter(new CsrfGrantingFilter(), SessionManagementFilter.class);
-
 
         //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         // @formatter:on
