@@ -1,0 +1,17 @@
+{
+  "summary": {
+    "title": "test",
+    "owner": "Theodoor Scholte",
+    "description": "Sample webapp"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "diagramtest",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0
+      }
+    ]
+  }
+}
