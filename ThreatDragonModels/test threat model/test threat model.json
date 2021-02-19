@@ -1,6 +1,7 @@
 {
   "summary": {
-    "title": "test threat model"
+    "title": "test threat model",
+    "owner": "theodoor"
   },
   "detail": {
     "contributors": [],
