@@ -82,7 +82,8 @@ public class DemoApplication {
         if (isEscapingEnabled())
             freetext = HtmlUtils.htmlEscape(xssInput);
 
-        memos.delete(auth.getName());
+        memos.delete(new Memo(auth.getName(),auth.getName()));
+        
         memos.save(new Memo(auth.getName(), freetext));
         DemoResponse response = new DemoResponse("Done", xssInput);
         return response;

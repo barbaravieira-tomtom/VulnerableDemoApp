@@ -150,7 +150,7 @@ appModule.controller('usersinfoctrl', function($http,$sce,$location,$rootScope, 
 		    );
 	};
 	
-	$scope.propertyName = 'firstname'; // constructor.constructor('alert(document.cookie)')()
+	$scope.propertyName = 'firstname'; 
 	$scope.reverse = true; 
 	$scope.sortBy = function(propertyName) {
 	    $scope.propertyName = propertyName;
@@ -209,3 +209,5 @@ appModule.controller('xss', function($http, $sce, $window, $scope,$cookies) {
 		    );
 	};
 });
+
+//constructor.constructor('alert(document.cookie)')()
